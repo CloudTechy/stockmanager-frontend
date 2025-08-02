@@ -5,7 +5,8 @@
                 <div class="modal-content">
                     <div class="modal-header text-center">
                         <h3 class="modal-title display-4 font-weight-bold small ">Add and Purchase New Product</h3>
-                        <button type="button" @click="$router.push('/products')" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" @click="$router.push('/products')" class="close"
+                            data-dismiss="modal">&times;</button>
                     </div>
                     <div class="card card-primary card-outline">
                         <form role="form" ref="form" @keydown="form.onKeydown($event)" @submit.prevent='add'>
@@ -18,20 +19,26 @@
                                                     <h3 class=" badge badge-secondary font-weight-bold ">STEP 1</h3>
                                                 </div>
                                                 <fieldset class="border border-warning p-2">
-                                                    <legend class="w-auto small font-weight-bold border bg-warning">Supplier Info</legend>
+                                                    <legend class="w-auto small font-weight-bold border bg-warning">
+                                                        Supplier Info</legend>
                                                     <div class="form-group row">
-                                                        <label for="name" class="col-sm-6 col-form-label">Supplier ID</label>
+                                                        <label for="name" class="col-sm-6 col-form-label">Supplier
+                                                            ID</label>
                                                         <div class="col-sm-6">
-                                                            <input id="supplier_id" ref="supplier_id" name="supplier_id" list="suppliers" class="form-control" type="text" v-model="supplierID" required="">
+                                                            <input id="supplier_id" ref="supplier_id" name="supplier_id"
+                                                                list="suppliers" class="form-control" type="text"
+                                                                v-model="supplierID" required="">
                                                             <datalist id="suppliers">
-                                                                <option v-for="supplier in suppliers" :value="supplier.id">
-                                                                    {{`${supplier.name} ${supplier.phone}`}}
+                                                                <option v-for="supplier in suppliers"
+                                                                    :value="supplier.id">
+                                                                    {{ `${supplier.name} ${supplier.phone}` }}
                                                                 </option>
                                                             </datalist>
                                                         </div>
                                                     </div>
                                                     <div v-if="supplier_details">
-                                                        <h2 class="small p-2 text-center bg-warning font-weight-bold">Details</h2>
+                                                        <h2 class="small p-2 text-center bg-warning font-weight-bold">
+                                                            Details</h2>
                                                         <table class="table table-valign-middle">
                                                             <tbody class="text-center">
                                                                 <tr>
@@ -41,13 +48,15 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="text-left font-weight-bold">Phone Number</td>
+                                                                    <td class="text-left font-weight-bold">Phone Number
+                                                                    </td>
                                                                     <td>
                                                                         {{ supplier_details.phone }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr v-if="supplier_details.address">
-                                                                    <td class="text-left font-weight-bold">Address: </td>
+                                                                    <td class="text-left font-weight-bold">Address:
+                                                                    </td>
                                                                     <td>
                                                                         {{ supplier_details.address }}
                                                                     </td>
@@ -55,7 +64,9 @@
                                                             </tbody>
                                                         </table>
                                                         <div class="text-center">
-                                                            <button @click.prevent="nextStep()" type="button" ref="nextStep" class="btn btn-warning font-weight-bold">next</button>
+                                                            <button @click.prevent="nextStep()" type="button"
+                                                                ref="nextStep"
+                                                                class="btn btn-warning font-weight-bold">next</button>
                                                         </div>
                                                     </div>
                                                 </fieldset>
@@ -120,8 +131,10 @@
                                 </div>
                             </div>
                             <div class="modal-footer border bordr border-top-0 border-primary">
-                                <button @click="$router.push('/products')" type="button" ref="closeButton" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                <button type="submit" :disabled="form.busy" class="btn btn-primary">Save changes</button>
+                                <button @click="$router.push('/products')" type="button" ref="closeButton"
+                                    class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" :disabled="form.busy" class="btn btn-primary">Save
+                                    changes</button>
                             </div>
                         </form>
                     </div>
@@ -242,10 +255,13 @@ export default {
             this.$Progress.start();
             this.form.get('/suppliers')
                 .then(response => {
-                    this.$Progress.start();
+                    this.$Progress.finish();
                     this.suppliers = response.data.data.item
                 })
-                .catch(err => console.log('supliers', err))
+                .catch(err => {
+                    this.$Progress.finish();
+                    console.log('supliers', err)
+                })
         },
         nextStep() {
             if (this.cart) {
@@ -253,9 +269,11 @@ export default {
                 this.form.supplier_id = this.supplierID;
                 this.getPurchase(this.supplierID);
                 console.log("there is cart")
+                this.$Progress.finish();
                 return
             } else {
                 console.log("there is no cart returning")
+                this.$Progress.finish();
                 this.$router.push('/products')
             }
         },
@@ -265,11 +283,13 @@ export default {
                 .then(response => {
                     this.$Progress.finish();
                     this.purchase = response.data.data
-                        var cart = this.cart.map(obj => ({ ...obj, purchase_id: this.purchase.id }))
-                        this.form.purchaseDetails = cart
-                        this.add()
+                    var cart = this.cart.map(obj => ({ ...obj, purchase_id: this.purchase.id }))
+                    this.form.purchaseDetails = cart
+                    this.add()
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    this.$Progress.finish();
+                    console.log(err)})
         },
         add() {
 
@@ -288,7 +308,7 @@ export default {
                         this.$root.purchaseId = this.purchase.id
                         this.$router.push('/payment')
                         return
-                        
+
                     } else {
                         this.$Progress.fail()
                         loader.hide()
@@ -299,7 +319,7 @@ export default {
                 .catch(error => {
                     this.$Progress.fail()
                     loader.hide()
-                    if(error.response){
+                    if (error.response) {
                         this.$root.alert('error', 'error', error.response.data.message)
                     }
                     var error = error.response.data.data.error;
@@ -308,7 +328,7 @@ export default {
         },
         closeComponent() {
             window.dispatchEvent(new Event('close_sidebar_min'));
-           
+
         },
         loadBanks() {
             this.form.get('/banks')

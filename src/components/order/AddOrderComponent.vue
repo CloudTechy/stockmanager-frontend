@@ -274,7 +274,7 @@ export default {
             this.$swal({
                 title: 'Remove Item from Cart',
                 text: "You are about to delete an item from cart",
-                type: 'warning',
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
@@ -302,7 +302,7 @@ export default {
             this.$swal({
                 title: 'Checkout Bill',
                 text: "Do you want to proceed to Checkout",
-                type: 'warning',
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',

@@ -71,10 +71,10 @@ export default {
                     app.success = true;
 
                     if (redirect && redirect.from && redirect.from.name !== 'login') {
-                        const routeName = redirect?.from?.name || 'orders'
+                        const routeName = redirect?.from?.name || 'products'
                         this.$router.replace({ name: routeName })
                     } else {
-                        app.$router.replace({ name: 'orders' }).catch(err => {
+                        app.$router.replace({ name: 'products' }).catch(err => {
                             if (err.name !== 'NavigationDuplicated') throw err;
                         });
                     }

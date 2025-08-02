@@ -16,7 +16,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/views/Orders.vue'),  // Lazy load HomeView component
+    component: () => import('@/views/Login.vue'),  // Lazy load HomeView component
     meta: {
       // auth: false
     },

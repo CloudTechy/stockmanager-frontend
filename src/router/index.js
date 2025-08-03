@@ -18,7 +18,7 @@ const routes = [
     name: 'home',
     component: () => import('@/views/Products.vue'),  // Lazy load HomeView component
     meta: {
-      // auth: false
+      auth: true
     },
   },
   {
@@ -161,7 +161,7 @@ const routes = [
 
 const router = new VueRouter({
   history: true,
-  mode: 'hash',
+  mode: 'history',
   routes,
   scrollBehavior: (to, from, savedPosition) => {
     if (savedPosition) {

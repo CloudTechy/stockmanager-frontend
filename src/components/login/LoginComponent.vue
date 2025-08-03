@@ -82,7 +82,7 @@ export default {
                 error: function (res) {
                     loader.hide();
                     app.has_error = true
-                    app.error = res.response.data.error
+                    app.error = res.response ? res.response.data.error : 'An error occurred during login. Please try again later.';
                     if (res.response) {
                         app.$root.alert('error', app.error, res.response.data.message)
                         if (app.error.email) {

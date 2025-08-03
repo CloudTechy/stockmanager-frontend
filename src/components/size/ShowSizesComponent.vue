@@ -103,6 +103,7 @@
             if(localStorage.sizes){
                 this.sizes = JSON.parse(localStorage.sizes)
             }
+            this.loadSizes();
         },
 
         data() { 
@@ -131,6 +132,7 @@
             
         },
         created(){
+
             if(!localStorage.sizes){
                 this.loadSizes();
             }

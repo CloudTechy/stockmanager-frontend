@@ -40,9 +40,11 @@
                 form : new Form({
                     name: '',
                     description:'No Description Yet',
+                    update_products: true
                 }),
                 size:'',
-                errors : {}
+                errors : {},
+                update_products: true
             }
         },
         created(){
@@ -55,6 +57,7 @@
         methods: {
             editSizeAxios(){
             	this.$Progress.start();
+                this.form.update_products = this.update_products
                 this.form.patch('/sizes/'+this.size.name)
                 .then(response => {
                     this.$refs.closeButton.click()

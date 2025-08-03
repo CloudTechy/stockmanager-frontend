@@ -44,9 +44,11 @@ export default {
             form: new Form({
                 name: '',
                 description: 'No Description Yet',
+                update_products:true
             }),
             category: '',
-            errors: {}
+            errors: {},
+            update_products:true
         }
     },
     created() {
@@ -59,6 +61,7 @@ export default {
     methods: {
         editCategoryAxios() {
             this.$Progress.start();
+            this.form.update_products=this.update_products
             this.form.patch('/categories/' + this.category.name)
                 .then(response => {
                     this.$refs.closeButton.click()

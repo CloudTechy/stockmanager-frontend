@@ -43,6 +43,7 @@ export default defineConfig({
     },
     sourcemap: false,
   },
+  target: ['es2015', 'safari11'],
 
   resolve: {
     alias: {

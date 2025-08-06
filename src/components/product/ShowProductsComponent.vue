@@ -371,12 +371,16 @@ export default {
             const swipeDistance = this.touchStartX - this.touchEndX;
             const absDistance = Math.abs(swipeDistance);
 
-            // If table is being scrolled horizontally, ignore swipe gesture
             const el = this.$refs.tableContainer;
+
             if (el && el.scrollWidth > el.clientWidth) {
-                const isScrolling = el.scrollLeft > 0 && el.scrollLeft < (el.scrollWidth - el.clientWidth);
-                if (isScrolling) {
-                    console.log("Skipping swipe gesture because user is scrolling table.");
+                const isAtStart = el.scrollLeft === 0;
+                const isAtEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+
+                // Block swipe only if in the middle of scroll (not at start or end)
+                const isMidScroll = !isAtStart && !isAtEnd;
+                if (isMidScroll) {
+                    console.log("User is mid-scroll, skipping swipe gesture.");
                     return;
                 }
             }
@@ -393,6 +397,7 @@ export default {
                 console.log("Swipe ignored → Too small or too large");
             }
         }
+
 
 
     }

@@ -30,8 +30,9 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <div @touchstart="handleTouchStart" @touchend="handleTouchEnd"
-                    class="table-responsive-sm table-responsive">
+                <div ref="tableContainer" @touchstart="handleTouchStart" @touchend="handleTouchEnd"
+                    class="table-responsive-sm table-responsive"
+                    style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
                     <table class="table table-small table-hover dataTable">
                         <thead>
                             <tr role="row ">
@@ -186,6 +187,8 @@ export default {
             pages: 0,
             touchStartX: 0,
             touchEndX: 0,
+            touchStartY: 0,
+            touchEndY: 0,
             form: new Form()
         }
     },
@@ -353,22 +356,30 @@ export default {
                 })
         },
         handleTouchStart(e) {
-            e.preventDefault();
             this.touchStartX = e.changedTouches[0].screenX;
+            this.touchStartY = e.changedTouches[0].screenY;
         },
+
         handleTouchEnd(e) {
-            e.preventDefault();
             this.touchEndX = e.changedTouches[0].screenX;
+            this.touchEndY = e.changedTouches[0].screenY;
             this.handleSwipeGesture();
         },
         handleSwipeGesture() {
-            const threshold = 30;         // Minimum swipe distance to trigger action
-            const maxThreshold = 500;     // Ignore overly long swipes (accidental drags)
-
+            const threshold = 50;
+            const maxThreshold = 400;
             const swipeDistance = this.touchStartX - this.touchEndX;
             const absDistance = Math.abs(swipeDistance);
 
-            console.log("Swipe Detected → Start:", this.touchStartX, "End:", this.touchEndX, "Distance:", swipeDistance);
+            // If table is being scrolled horizontally, ignore swipe gesture
+            const el = this.$refs.tableContainer;
+            if (el && el.scrollWidth > el.clientWidth) {
+                const isScrolling = el.scrollLeft > 0 && el.scrollLeft < (el.scrollWidth - el.clientWidth);
+                if (isScrolling) {
+                    console.log("Skipping swipe gesture because user is scrolling table.");
+                    return;
+                }
+            }
 
             if (absDistance > threshold && absDistance < maxThreshold) {
                 if (swipeDistance > 0) {
@@ -379,7 +390,7 @@ export default {
                     this.pageLoaderB(-1);
                 }
             } else {
-                console.log("Swipe ignored → Too short or too long");
+                console.log("Swipe ignored → Too small or too large");
             }
         }
 

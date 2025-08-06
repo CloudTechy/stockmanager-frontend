@@ -183,6 +183,8 @@ export default {
             current_page: 1,
             length: 0,
             pages: 0,
+            touchStartX: 0,
+            touchEndX: 0,
             form: new Form()
         }
     },
@@ -357,6 +359,8 @@ export default {
             this.handleSwipeGesture();
         },
         handleSwipeGesture() {
+            console.log("Swipe detected", this.touchStartX, this.touchEndX);
+            
             const swipeDistance = this.touchStartX - this.touchEndX;
             const threshold = 50; // Minimum distance to consider as swipe
 

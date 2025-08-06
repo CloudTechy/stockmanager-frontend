@@ -34,7 +34,7 @@
                     class="table-responsive-sm table-responsive">
                     <table class="table table-small table-hover dataTable">
                         <thead>
-                            <tr role="row ">1
+                            <tr role="row ">
                                 <th>Name</th>
                                 <th>category</th>
                                 <th>Brand</th>

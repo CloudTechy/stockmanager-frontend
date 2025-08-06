@@ -41,9 +41,14 @@ export default defineConfig({
         "esbuild",
       ],
     },
+    target: ['es2015', 'safari11'],
+    commonjsOptions: {
+      include: [/node_modules/]
+    },
     sourcemap: false,
   },
-  target: ['es2015', 'safari11'],
+  
+
 
   resolve: {
     alias: {

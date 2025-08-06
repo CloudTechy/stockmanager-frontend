@@ -29,9 +29,11 @@
             </div>
         </div>
         <div class="row" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
-            <div class="col-sm-12">
-                <div class="table-responsive-sm table-responsive">
-                    <table class="table table-small table-hover dataTable">
+            <div @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="col-sm-12">
+                <div @touchstart="handleTouchStart" @touchend="handleTouchEnd"
+                    class="table-responsive-sm table-responsive">
+                    <table @touchstart="handleTouchStart" @touchend="handleTouchEnd"
+                        class="table table-small table-hover dataTable">
                         <thead>
                             <tr role="row ">
                                 <th>Name</th>
@@ -77,8 +79,8 @@
                                 </td>
                                 <td>
                                     <div style="width: 200px;">
-                                        <button @click="loadView(product, index + start)" type="button" title="view more"
-                                            class="  m-1 btn btn-outline-info"><i
+                                        <button @click="loadView(product, index + start)" type="button"
+                                            title="view more" class="  m-1 btn btn-outline-info"><i
                                                 class="fas fa-street-view"></i></button>
                                         <button @click="loadEdit(product, index + start)" type="button"
                                             title="edit this product price" class="btn btn-outline-primary small m-1"
@@ -352,28 +354,29 @@ export default {
                 })
         },
         handleTouchStart(e) {
+            e.preventDefault();
             this.touchStartX = e.changedTouches[0].screenX;
         },
         handleTouchEnd(e) {
+            e.preventDefault();
             this.touchEndX = e.changedTouches[0].screenX;
             this.handleSwipeGesture();
         },
         handleSwipeGesture() {
             console.log("Swipe detected", this.touchStartX, this.touchEndX);
-            
             const swipeDistance = this.touchStartX - this.touchEndX;
-            const threshold = 50; // Minimum distance to consider as swipe
+            const threshold = 50;
 
             if (swipeDistance > threshold) {
-                // Swiped left
-                pageLoaderB(1)
+                console.log("Swiped left → Next page");
+                this.pageLoaderB(1);
             } else if (swipeDistance < -threshold) {
-                // Swiped right
-                pageLoaderB(-1)
+                console.log("Swiped right → Previous page");
+                this.pageLoaderB(-1);
             }
-        },
-        
+        }
+
     }
 }
 
-</script> 
+</script>

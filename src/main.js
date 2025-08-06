@@ -43,8 +43,9 @@ import "sweetalert2/dist/sweetalert2.min.css";
 // Vue Plugin Init
 Vue.use(VueAxios, axios);
 Vue.router = router;
-Vue.use(VueAuth, auth);
-Vue.use(VueRouter, router);
+
+Vue.use(VueRouter);
+Vue.use(VueAuth, {...auth,axios});
 
 
 Vue.use(VueCookies);
@@ -63,32 +64,20 @@ Vue.use(toastr,  {
   // defaultStyle: { "background-color": "red" },
   defaultClassNames: ["animated", "zoomInUp"]
 });
-Vue.use(Loading); 
-let loader = null;
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.progress !== undefined) {
-    Vue.prototype.$Progress.parseMeta(to.meta.progress)
-  }
-
-  Vue.prototype.$Progress.start()
-  loader = Vue.prototype.$loading.show({
-    // Optional custom config
+Vue.use(Loading, {
     canCancel: false,
-    color: "orange", //28a745
+    color: "orange",
     backgroundColor: "#fff",
-    loader: "dots" 
-  })
-  next()
-})
+    loader: "dots",
+    width: 64,
+    height: 64,
+    opacity: 0.5,
+    zIndex: 9999,
+    isFullPage: true,
+    // customClass: 'custom-loading-class',
+}); 
 
-router.afterEach(() => {
-  Vue.prototype.$Progress.finish()
-  if (loader) {
-    loader.hide()
-    loader = null
-  }
-})
+
 
 Vue.use(VueProgressBar, {
     color: "#ffc107",
@@ -105,10 +94,7 @@ axios.defaults.baseURL =
 axios.defaults.headers.common["Accept"] = "application/json";
 
 console.log(axios.defaults.baseURL);
-// const token = localStorage.getItem("stockmanager");
-// if (token) {
-//     axios.defaults.headers.common["Authorization"] = token;
-// }
+
 window.axios = axios;
 window.axios.defaults.baseURL = axios.defaults.baseURL || "http://localhost:8000/api";
     
@@ -119,6 +105,21 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 Vue.component(AlertErrors.name, AlertErrors)
 Vue.component(AlertSuccess.name, AlertSuccess)
+
+
+ window.before_route_loader = null;
+router.beforeEach((to, from, next) => {
+  if (to.meta.progress !== undefined) {
+    Vue.prototype.$Progress.parseMeta(to.meta.progress);
+  }
+  Vue.prototype.$Progress.start();
+before_route_loader = Vue.$loading.show()
+  next();
+});
+
+router.afterEach(() => {
+    
+});
 
 $(document).ready(() => {
   $('[data-widget="treeview"]').Treeview?.('init'); // Safe initialization
@@ -138,21 +139,15 @@ Date.prototype.addDays = function(date, days) {
 
 // Vue Instance
 new Vue({
-    el: "#app",
     router,
     data: {
         respond: "",
-        VueProgressBar,
-        VueSweetalert2,
-        VueSession,
-        VueCookies,
         donutOrders: {},
         error: "",
         token: "",
         user: {},
         form: new Form(),
         transactions: "",
-        loader: undefined,
         units: "",
         categories: "",
         brands: "",
@@ -160,6 +155,19 @@ new Vue({
     },
     mounted() {
       this.form.baseURL = axios.defaults.baseURL;
+      window.mount_loader = Vue.$loading.show();
+    },
+    watch: {
+        $route(to, from) {
+            if (this.$auth.ready) {
+            if (window.mount_loader) {
+                window.mount_loader.hide();
+              }
+               if (window.before_route_loader) {
+                window.before_route_loader.hide();
+              }
+            }
+        },
     },
     methods: {
         alert(type, title, message) {

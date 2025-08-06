@@ -28,14 +28,13 @@
                 </div>
             </div>
         </div>
-        <div class="row" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
-            <div @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
                 <div @touchstart="handleTouchStart" @touchend="handleTouchEnd"
                     class="table-responsive-sm table-responsive">
-                    <table @touchstart="handleTouchStart" @touchend="handleTouchEnd"
-                        class="table table-small table-hover dataTable">
+                    <table class="table table-small table-hover dataTable">
                         <thead>
-                            <tr role="row ">
+                            <tr role="row ">1
                                 <th>Name</th>
                                 <th>category</th>
                                 <th>Brand</th>
@@ -363,18 +362,27 @@ export default {
             this.handleSwipeGesture();
         },
         handleSwipeGesture() {
-            console.log("Swipe detected", this.touchStartX, this.touchEndX);
-            const swipeDistance = this.touchStartX - this.touchEndX;
-            const threshold = 50;
+            const threshold = 30;         // Minimum swipe distance to trigger action
+            const maxThreshold = 500;     // Ignore overly long swipes (accidental drags)
 
-            if (swipeDistance > threshold) {
-                console.log("Swiped left → Next page");
-                this.pageLoaderB(1);
-            } else if (swipeDistance < -threshold) {
-                console.log("Swiped right → Previous page");
-                this.pageLoaderB(-1);
+            const swipeDistance = this.touchStartX - this.touchEndX;
+            const absDistance = Math.abs(swipeDistance);
+
+            console.log("Swipe Detected → Start:", this.touchStartX, "End:", this.touchEndX, "Distance:", swipeDistance);
+
+            if (absDistance > threshold && absDistance < maxThreshold) {
+                if (swipeDistance > 0) {
+                    console.log("Swiped left → Next page");
+                    this.pageLoaderB(1);
+                } else {
+                    console.log("Swiped right → Previous page");
+                    this.pageLoaderB(-1);
+                }
+            } else {
+                console.log("Swipe ignored → Too short or too long");
             }
         }
+
 
     }
 }

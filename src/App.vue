@@ -11,6 +11,17 @@ export default {
   components: {
    
   },
+  mounted() {
+    // Patch focus trap issue for vue-loading-overlay
+    document.querySelectorAll('.vld-overlay').forEach(el => {
+      el.addEventListener('focusin', (e) => {
+        if (document.querySelector('.modal.show')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        // el.focus(); // optional
+      }, { capture: true });
+    });
+  }
 }
 </script>
 <style>

@@ -82,16 +82,7 @@ Vue.use(Loading, {
 
 
 Vue.use(VueProgressBar, {
-    color: "#ffc107",
-    failedColor: "red",
-    thickness: "5px",
-    transition: {
-        speed: "0.2s",
-        opacity: "0.6s",
-        termination: 300,
-    },
-    autoRevert: true,
-    location: "top",
+   
 
 });
 
@@ -124,7 +115,7 @@ router.beforeEach((to, from, next) => {
     Vue.prototype.$Progress.parseMeta(to.meta.progress);
   }
   Vue.prototype.$Progress.start();
-before_route_loader = Vue.$loading.show()
+//   window.before_route_loader = Vue.$loading.show()
   next();
 });
 

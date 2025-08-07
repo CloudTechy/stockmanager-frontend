@@ -179,11 +179,11 @@ export default {
 
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            if (from.path == "/" || from.path != "/products") {
-                vm.$router.replace('/products')
-            }
+            // if (from.path != "/" || from.path != "/products") {
+            //     vm.$router.replace('/products')
+            // }
             if (!vm.$root.PurchaseCart) {
-                vm.$root.alert('warning', 'caution', 'Your purchase Cart is empty, redirecting to billing')
+                vm.$root.alert('warning', 'caution', 'Your purchase Cart is empty, redirecting to products')
                 vm.$router.replace('/products')
             }
         })

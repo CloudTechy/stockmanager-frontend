@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header text-center">
         <h3 id="modalTitle" class="modal-title display-5 font-weight-bold">
-          <i class="fa fa-arrow-down text-success"></i> Inbound Products
+          <i class="fa fa-arrow-up text-success"></i> Top up Product(s)
         </h3>
         <button type="button" @click.prevent="closeComponent" class="close" data-dismiss="modal">&times;</button>
       </div>

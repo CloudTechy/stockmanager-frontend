@@ -146,8 +146,8 @@
 <script>
 export default {
     mounted() {
-        this.loadSuppliers();
 
+        this.loadSuppliers();
         if (this.$root.purchaseSupplierID) {
             this.supplierID = this.$root.purchaseSupplierID;
 
@@ -180,16 +180,14 @@ export default {
     beforeRouteEnter(to, from, next) {
         next(vm => {
             if (from.path == "/" || from.path != "/products") {
-                vm.$router.push('/products')
+                vm.$router.replace('/products')
             }
             if (!vm.$root.PurchaseCart) {
                 vm.$root.alert('warning', 'caution', 'Your purchase Cart is empty, redirecting to billing')
-                vm.$router.push('/products')
+                vm.$router.replace('/products')
             }
         })
 
-
-        // console.log(to)
     },
     created() { this.loadSuppliers(); },
 
@@ -274,7 +272,7 @@ export default {
             } else {
                 console.log("there is no cart returning")
                 this.$Progress.finish();
-                this.$router.push('/products')
+                this.$router.replace('/products')
             }
         },
         getPurchase(id) {
@@ -283,7 +281,7 @@ export default {
                 .then(response => {
                     this.$Progress.finish();
                     this.purchase = response.data.data
-                    var cart = this.cart.map(obj => ({ ...obj, purchase_id: this.purchase.id }))
+                    let cart = this.cart.map(obj => ({ ...obj, purchase_id: this.purchase.id }))
                     this.form.purchaseDetails = cart
                     this.add()
                 })
@@ -302,11 +300,11 @@ export default {
                     this.$Progress.finish()
                     if (response.data.status == true) {
                         loader.hide()
-                        localStorage.removeItem("purchasesCart")
+                        localStorage.removeItem("PurchaseCart")
                         this.form.reset()
                         this.$root.alert('success', 'success', 'product added, redirecting to payment')
                         this.$root.purchaseId = this.purchase.id
-                        this.$router.push('/payment')
+                        this.$router.replace('/payment')
                         return
 
                     } else {

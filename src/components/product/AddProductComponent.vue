@@ -336,6 +336,7 @@ export default {
             this.$Progress.start();
             this.form.purchaseDetails[0].purchase_id = this.purchase.id
             this.form.purchaseDetails[0].product = this.form.purchaseDetails[0].product.toLowerCase();
+            this.form.purchaseDetails[0].purchase_price = this.form.purchaseDetails[0].price
             this.form.post('/purchasedetails')
                 .then(response => {
                     this.$Progress.finish()
@@ -345,6 +346,7 @@ export default {
                         this.form.purchaseDetails[0].sale_price = ""
                         this.form.purchaseDetails[0].price = ""
                         this.form.purchaseDetails[0].size = ""
+                        this.form.purchaseDetails[0].purchase_price = ""
                         this.$Progress.finish()
                         this.$root.alert('success', 'success', 'product added, add more?')
                     } else {

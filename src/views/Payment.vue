@@ -3,7 +3,8 @@
         <div class="modal-content">
             <div class="modal-header text-center">
                 <h3 class="modal-title display-4 font-weight-bold small ">Payment Module</h3>
-                <button type="button" @click="closeAddModalComponent" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" @click="closeAddModalComponent" class="close"
+                    data-dismiss="modal">&times;</button>
             </div>
             <div class="card card-primary card-outline">
                 <form role="form" ref="form" @keydown="form.onKeydown($event)" @submit.prevent='add'>
@@ -13,7 +14,8 @@
                                 <div class="row">
                                     <div v-if="transaction != undefined && transactionView == true" class="col-md-12">
                                         <fieldset class="border border-warning p-2">
-                                            <legend class="w-auto small font-weight-bold border bg-warning">Make Quick Payment</legend>
+                                            <legend class="w-auto small font-weight-bold border bg-warning">Make Quick
+                                                Payment</legend>
                                             <table class="table table-valign-middle">
                                                 <tbody>
                                                     <tr>
@@ -25,14 +27,16 @@
                                                     <tr>
                                                         <td class="font-weight-bold">Total: </td>
                                                         <td>
-                                                            <span class="" style="text-decoration: line-through">N</span>
+                                                            <span class=""
+                                                                style="text-decoration: line-through">N</span>
                                                             {{ $root.numeral(transaction.amount) }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="font-weight-bold">Paid: </td>
                                                         <td>
-                                                            <span class="" style="text-decoration: line-through">N</span>
+                                                            <span class=""
+                                                                style="text-decoration: line-through">N</span>
                                                             {{ $root.numeral(transaction.payment) }}
                                                         </td>
                                                     </tr>
@@ -40,12 +44,14 @@
                                                         <td class="font-weight-bold">Mode of Payment: </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                <select v-model="form.payment_mode" class="form-control">
+                                                                <select v-model="form.payment_mode"
+                                                                    class="form-control">
                                                                     <option value="cash">CASH</option>
                                                                     <option value="bank">BANK</option>
                                                                 </select>
-                                                                 <has-error :form="form" field="payment_mode"></has-error>
-                                                               
+                                                                <has-error :form="form"
+                                                                    field="payment_mode"></has-error>
+
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -53,7 +59,10 @@
                                                         <td class="font-weight-bold">Amount: </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                <input :disabled = "transaction.status == 'paid'" type="number" v-model="form.payment"  class="form-control" ref="payment" placeholder="Enter the amount you wish to pay">
+                                                                <input :disabled="transaction.status == 'paid'"
+                                                                    type="number" v-model="form.payment"
+                                                                    class="form-control" ref="payment"
+                                                                    placeholder="Enter the amount you wish to pay">
                                                                 <has-error :form="form" field="payment"></has-error>
                                                             </div>
                                                         </td>
@@ -62,7 +71,9 @@
                                                         <td class="font-weight-bold">Due Date: </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                <input type="date" v-model="form.due_date" class="form-control" ref="due_date" placeholder="Enter the amount you wish to pay">
+                                                                <input type="date" v-model="form.due_date"
+                                                                    class="form-control" ref="due_date"
+                                                                    placeholder="Enter the amount you wish to pay">
                                                                 <has-error :form="form" field="due_date"></has-error>
                                                             </div>
                                                         </td>
@@ -71,36 +82,44 @@
                                             </table>
                                         </fieldset>
                                     </div>
-                                    <div v-if='normalView == true && transaction == ""' class="col-md-12 ml-auto">
+                                   <div v-if='normalView == true && transaction == ""' class="col-md-12 ml-auto">
                                         <fieldset class="border border-warning p-2">
-                                            <legend class="w-auto small font-weight-bold border bg-warning">Process Transaction</legend>
+                                            <legend class="w-auto small font-weight-bold border bg-warning">Process
+                                                Transaction</legend>
                                             <table class="table table-valign-middle">
                                                 <tbody>
                                                     <tr v-if="transaction_type == ''">
                                                         <td class="font-weight-bold">Transaction Type: </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                <select v-model="form_transaction_type" ref="transaction_type" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                                                <select v-model="form_transaction_type"
+                                                                    ref="transaction_type" class="custom-select mr-sm-2"
+                                                                    id="inlineFormCustomSelect">
                                                                     <option value="orders" selected>Order</option>
                                                                     <option value="purchases">Purchase</option>
                                                                 </select>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr v-if="transaction_type != ''  && idTypes != '' ">
-                                                        <td class="font-weight-bold">{{ 'Input ' + transaction_type + ' id' }}</td>
+                                                    <tr v-if="transaction_type != '' && idTypes != ''">
+                                                        <td class="font-weight-bold">
+                                                            {{ 'Input ' + transaction_type + ' id' }}</td>
                                                         <td>
                                                             <div class="form-group">
-                                                                <input id="idType" ref="idType" name="idType" list="idTypes" class="form-control" type="text" v-model="form_typeid" required="">
+                                                                <input id="idType" ref="idType" name="idType"
+                                                                    list="idTypes" class="form-control" type="text"
+                                                                    v-model="form_typeid" required="">
                                                                 <datalist id="idTypes">
-                                                                    <option v-for="type in idTypes" :value="type.id"></option>
+                                                                    <option v-for="type in idTypes" :value="type.id">
+                                                                    </option>
                                                                 </datalist>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr class="text-center">
                                                         <td class="font-weight-bold" colspan="2">
-                                                            <button @click.prevent="nextStep()" type="button" ref="nextStep" class="btn btn-warning">next</button>
+                                                            <button @click.prevent="nextStep()" type="button"
+                                                                ref="nextStep" class="btn btn-warning">next</button>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -109,8 +128,10 @@
                                     </div>
                                     <div v-if="invoice != undefined && invoiceView == true" class="col-md-12">
                                         <fieldset class="border border-warning p-2">
-                                            <legend class="w-auto small font-weight-bold border bg-warning">Invoice preview</legend>
-                                            <invoice-detail-component :title='"Details"' :invoice='invoice'></invoice-detail-component>
+                                            <legend class="w-auto small font-weight-bold border bg-warning">Invoice
+                                                preview</legend>
+                                            <invoice-detail-component :title='"Details"'
+                                                :invoice='invoice'></invoice-detail-component>
                                             <print-bar-component :invoice='invoice'></print-bar-component>
                                         </fieldset>
                                     </div>
@@ -119,8 +140,10 @@
                         </div>
                     </div>
                     <div class="modal-footer border bordr border-top-0 border-primary">
-                        <button @click="closeAddModalComponent" type="button" ref="closeButton" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button v-if='!invoiceView' type="submit" :disabled="form.busy" class="btn btn-primary">Save Changes</button>
+                        <button @click="closeAddModalComponent" type="button" ref="closeButton" class="btn btn-danger"
+                            data-dismiss="modal">Close</button>
+                        <button v-if='!invoiceView' type="submit" :disabled="form.busy" class="btn btn-primary">Save
+                            Changes</button>
                     </div>
                 </form>
             </div>
@@ -158,7 +181,7 @@ export default {
             this.$Progress.start();
             this.form_typeid = this.$root.purchaseId
             this.transaction_type = "purchases"
-            this.idTypes = [{id:this.form_typeid}]
+            this.idTypes = [{ id: this.form_typeid }]
             this.normalView = false
             this.nextStep()
             this.$root.purchaseId = ""
@@ -240,11 +263,12 @@ export default {
     methods: {
         add() {
             this.$Progress.start();
+            let loader = this.$loading.show()
             this.form.put('/transactions/' + this.transaction.id)
                 .then(response => {
                     this.$Progress.finish()
+                    loader.hide()
                     if (response.data.status == true) {
-                        
                         this.$root.alert('success', 'success', 'transaction processed successfully ')
                         this.loadInvoice(this.transaction.invoice_id);
 
@@ -255,6 +279,7 @@ export default {
                     }
                 })
                 .catch(error => {
+                    loader.hide()
                     this.$Progress.fail()
                     this.$root.alert('error', 'error', error.response.data.error)
                     var error = error.response.data.error;
@@ -272,29 +297,32 @@ export default {
             window.dispatchEvent(new Event('close_sidebar_min'));
             if (this.$route.path == "/payment") {
 
-                this.$router.go(-1)
+                this.$router.replace("/products")
             }
             return true;
         },
         loadInvoice(invoice_id) {
             this.$Progress.start();
+            let loader = this.$loading.show()
             this.form.get('/invoices/' + this.transaction.invoice_id)
                 .then(response => {
+                    loader.hide()
                     this.$Progress.finish()
                     if (response.data.status == true) {
                         this.invoice = response.data.data
                         this.loadInvoiceView();
                     }
-                    else{
+                    else {
                         this.$Progress.fail()
                     }
-                    
+
                 })
                 .catch(error => {
+                    loader.hide()
                     this.$Progress.fail()
                     console.log(error.response);
                     this.$root.alert('error', 'error', error.response.data.message)
-                    
+
                 })
 
         },
@@ -303,10 +331,11 @@ export default {
             this.transaction = ''
             this.transactionView = false
             this.invoiceView = true
-            this.normalView = false 
+            this.normalView = false
             this.$Progress.finish()
         },
         nextStep() {
+            let loader = this.$loading.show()
             this.$Progress.start();
             if (this.form_transaction_type != '' && this.transaction_type == '') {
 
@@ -317,10 +346,12 @@ export default {
                 this.idTypes = '';
                 this.form.get('/' + this.transaction_type + '/' + this.form_typeid)
                     .then(response => {
+
                         if (response.data.status == true) {
                             var invoice_id = response.data.data.invoice_id
                             this.form.get('/transactions/?invoice_id=' + invoice_id)
                                 .then(response => {
+                                    loader.hide()
                                     this.$Progress.finish()
                                     if (response.data.status == true) {
                                         var transaction_id = response.data.data.item[0].id
@@ -332,59 +363,67 @@ export default {
 
                                 })
                                 .catch(error => {
-                                    if(error.response){
+                                    loader.hide()
+                                    if (error.response) {
                                         console.log(error.response);
-                                    this.$root.alert('error', 'error', error.response.data.message)
-                                    
-                                    this.$Progress.fail()
-                                    console.log(error);
+                                        this.$root.alert('error', 'error', error.response.data.message)
+
+                                        this.$Progress.fail()
+                                        console.log(error);
                                     }
 
-                                    
+
                                 })
                         }
 
                     })
                     .catch(error => {
+                        loader.hide()
                         console.log(error.response);
                         this.$root.alert('error', 'error', error.response.data.message)
-                        
+
                         this.$Progress.fail()
                     })
             }
         },
         load(type) {
+            let loader = this.$loading.show()
             this.$Progress.start();
             this.form.get('/' + type)
                 .then(response => {
+                    loader.hide()
                     if (response.data.status == true) {
                         this.idTypes = response.data.data.item
                     }
                     this.$Progress.finish()
                 })
                 .catch(error => {
+                    loader.hide()
                     console.log(error.response);
                     this.$root.alert('error', 'error', error.response.data.message)
-                    
+
                     this.$Progress.fail()
                 })
         },
         loadTransaction(id) {
+            let loader = this.$loading.show()
             this.$Progress.start();
             this.form.get('/transactions/' + id)
                 .then(response => {
+                    loader.hide()
                     this.$Progress.finish()
                     if (response.data.status == true) {
                         this.normalView = false
                         this.transactionView = true
                         this.transaction = response.data.data
                     }
-                    
+
                 })
                 .catch(error => {
+                    loader.hide()
                     console.log(error.response);
                     this.$root.alert('error', 'error', error.response.data.message)
-                    
+
                     this.$Progress.fail()
                 })
         }

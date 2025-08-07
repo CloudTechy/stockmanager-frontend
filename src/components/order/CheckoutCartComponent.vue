@@ -4,7 +4,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Checkout</h5>
                 <button type="button" @click.prevent="closeComponent" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span inert="true">&times;</span>
                 </button>
             </div>
             <div class="card card-primary card-outline">

@@ -179,10 +179,9 @@ export default {
     else {
       localStorage.removeItem("PurchaseCart")
     }
-
-    // this.$emit('closingAddPurchaseCart')
-    window.dispatchEvent(new Event('close_sidebar_min'))
     this.$refs.closeButtonPurchase.click();
+    window.dispatchEvent(new Event('close_sidebar_min'))
+    // 
 
 
 
@@ -325,7 +324,7 @@ export default {
       localStorage.removeItem("purchaseCart")
     },
     processCheckout() {
-      this.$Progress.start();
+      // this.$Progress.start();
       this.$swal({
         title: 'Checkout Bill',
         text: "Do you want to proceed to Checkout",
@@ -337,20 +336,20 @@ export default {
       })
         .then((result) => {
           if (result.value) {
+            localStorage.PurchaseCart = JSON.stringify(this.cart)
             this.$root.PurchaseCart = this.cart
             this.$root.alert('success', 'success', 'proceeding to checkout')
-            this.$Progress.finish()
-            this.checkout_status = true
+            // this.$Progress.finish()
             this.$router.replace("/billing_purchase")
 
           } else {
             this.$refs.closeButtonPurchase.click();
             this.addProductShow = false
           }
-          this.$Progress.finish()
+          // this.$Progress.finish()
 
         })
-      this.$Progress.finish()
+      // this.$Progress.finish()
     },
     search() {
       var datalist = this.$refs.datalist

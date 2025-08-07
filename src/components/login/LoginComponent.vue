@@ -15,7 +15,7 @@
                             placeholder="Email" :class="{ 'is-invalid': form.errors.has('email') }" />
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <i class="fa fa-envelope" inert="true"></i>
                         </span>
                     </div>
                     <div class="text-danger text-center" v-if="form.errors.has('email')">
@@ -27,7 +27,7 @@
                             placeholder="Password" :class="{ 'is-invalid': form.errors.has('password') }" />
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
-                            <i class="fa fa-lock" aria-hidden="true"></i>
+                            <i class="fa fa-lock" inert="true"></i>
                         </span>
                     </div>
                     <div class="text-danger text-center" v-if="form.errors.has('password')">

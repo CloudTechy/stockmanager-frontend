@@ -13,19 +13,19 @@
             <div class="modal-body p-0">
               <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-12 p-0 m-0">
+                  <div class="p-0 m-0">
                     <fieldset class="border border-info p-1">
                       <legend class="p-2 w-auto small font-weight-bold border text-info">Add product to cart <i
                           class="fa fa-shopping-cart "></i></legend>
                       <div class="form-row">
-                        <div class="col-12 col-md-9">
+                        <div class="col-12 col-md-8 col-lg-6">
                           <label class="small" for="">Input name of item</label>
                           <input v-model="name" list="products" class="form-control" required="" type="search"
                             ref="name" placeholder="Ex: 300-18 Sports Ordinary tyre">
                           <datalist ref="datalist" id="products">
                           </datalist>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4 col-lg-6">
                           <label class="small" for="">Quantity</label>
                           <input type="number" title="How many pc(s) do you want to top up" v-model="cartItem.quantity"
                             required="" min="1" class="form-control" ref="quantity"

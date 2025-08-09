@@ -303,7 +303,8 @@ export default {
         loadInvoice(invoice_id) {
             this.$Progress.start();
             let loader = this.$loading.show()
-            this.form.get('/invoices/' + this.transaction.invoice_id)
+            let form = new Form()
+            form.get('/invoices/' + this.transaction.invoice_id)
                 .then(response => {
                     loader.hide()
                     this.$Progress.finish()

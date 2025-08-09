@@ -3,7 +3,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Checkout</h5>
-                <button type="button" @click.prevent="closeComponent" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" @click.prevent="closeComponent" class="close" data-dismiss="modal"
+                    aria-label="Close">
                     <span inert="true">&times;</span>
                 </button>
             </div>
@@ -15,18 +16,24 @@
                                 <div class="row" v-if="customerStatus == false">
                                     <div class="col-md-12">
                                         <fieldset class="border border-warning p-2">
-                                            <legend class="w-auto small font-weight-bold border bg-warning">Customer Details</legend>
+                                            <legend class="w-auto small font-weight-bold border bg-warning">Customer
+                                                Details</legend>
                                             <div class="form-group row">
-                                                <label for="name" class="col-sm-6 col-form-label">Customer details</label>
+                                                <label for="name" class="col-sm-6 col-form-label">Customer
+                                                    details</label>
                                                 <div class="col-sm-6">
-                                                    <input id="customer_id" ref="customer_id" name="customer_id" list="customers" class="form-control" type="text" v-model="customer_id" required="">
+                                                    <input id="customer_id" ref="customer_id" name="customer_id"
+                                                        list="customers" class="form-control" type="text"
+                                                        v-model="customer_id" required="">
                                                     <datalist size='5' id="customers">
-                                                        <option v-for="customer in customers" :value="customer.id"> {{ `${customer.name} ${customer.number}` }}</option>
+                                                        <option v-for="customer in customers" :value="customer.id">
+                                                            {{ `${customer.name} ${customer.number}` }}</option>
                                                     </datalist>
                                                 </div>
                                             </div>
                                             <div v-if="customer_details">
-                                                <h2 class="small p-2 text-center bg-warning font-weight-bold">Details</h2>
+                                                <h2 class="small p-2 text-center bg-warning font-weight-bold">Details
+                                                </h2>
                                                 <table class="table table-valign-middle">
                                                     <tbody class="text-center">
                                                         <tr>
@@ -50,10 +57,12 @@
                                                     </tbody>
                                                 </table>
                                                 <div class="text-center small">
-                                                    <button @click.prevent="nextStep()" type="button" ref="nextStep" class="btn btn-primary small">Checkout and Pay</button>
+                                                    <button @click.prevent="nextStep()" type="button" ref="nextStep"
+                                                        class="btn btn-primary small">Checkout and Pay</button>
                                                 </div>
                                                 <h2 class="text-center m-1 p-1 text-info small">
-                                                    Please note that your order would be placed at this point and your cart emptied
+                                                    Please note that your order would be placed at this point and your
+                                                    cart emptied
                                                 </h2>
                                             </div>
                                             <div v-if="customer_details == '' && customer_id != ''">
@@ -75,7 +84,8 @@
                 </form>
             </div>
             <div class="modal-footer border  border-top-0 border-primary">
-                <button v-if="loading == false" type="button" @click="closeComponent" ref="closeButton" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button v-if="loading == false" type="button" @click="closeComponent" ref="closeButton"
+                    class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -83,7 +93,7 @@
 <script>
 export default {
     mounted() {
-        
+
         if (this.$root.checkoutCart) {
             this.cart = this.$root.checkoutCart;
             this.$root.checkoutCart = '';
@@ -93,17 +103,17 @@ export default {
             this.customer_details = this.$root.customer_details
         }
         if (this.customer_details == "") {
-            this.$root.alert('warning', 'CAUTION', 'Assign customer for checkout')
+            this.$root.alert('warning', 'Redirecting', 'Assign customer before checkout')
             console.log('No customer details found by mounted, redirecting to customers page')
             // Redirect to customers page if no customer details found with a 3 sec timeout
             setTimeout(() => {
                 this.$router.push('/customers')
-            }, 1000)
+            }, 2000)
         }
-        
+
 
     },
-    created(){this.loadCustomers();},
+    created() { this.loadCustomers(); },
     data() {
         return {
             form: new Form({
@@ -129,23 +139,27 @@ export default {
         }
     },
     beforeDestroy() {
-        this.cart = [];
-        this.builtCart = [];
-        this.customers = "";
-        this.customerStatus = false;
-        this.orderData = "";
-        this.customer_details = "";
-        this.orderID = ""
-        this.transaction_id = "";
-        this.invoice_id = "";
-        this.orders = "";
-        this.transaction = "";
-        this.form.reset();
-        this.loading = false;
+        if (this.SendOrderStatus == "placed") {
+            this.cart = [];
+            this.builtCart = [];
+            this.customers = "";
+            this.customerStatus = false;
+            this.orderData = "";
+            this.customer_details = "";
+            this.orderID = ""
+            this.transaction_id = "";
+            this.invoice_id = "";
+            this.orders = "";
+            this.transaction = "";
+            this.form.reset();
+            this.loading = false;
 
+
+        }
         if (this.$refs.closeButton) {
             this.$refs.closeButton.click();
         }
+
         window.dispatchEvent(new Event('close_sidebar_min'))
     },
     watch: {
@@ -164,7 +178,7 @@ export default {
                     return
                 }
                 console.log('No customer details found by watch')
-                this.$router.push('/customers') 
+                this.$router.push('/customers')
             }
         }
     },
@@ -237,18 +251,20 @@ export default {
                 });
         },
         closeComponent() {
-            this.cart = [];
-            this.builtCart = [];
-            this.customers = "";
-            this.customerStatus = false;
-            this.orderData = "";
-            this.customer_details = "";
-            this.orderID = ""
-            this.transaction_id = "";
-            this.invoice_id = "";
-            this.orders = "";
-            this.loading = false
-            this.form.reset();
+            if (this.SendOrderStatus == "placed") {
+                this.cart = [];
+                this.builtCart = [];
+                this.customers = "";
+                this.customerStatus = false;
+                this.orderData = "";
+                this.customer_details = "";
+                this.orderID = ""
+                this.transaction_id = "";
+                this.invoice_id = "";
+                this.orders = "";
+                this.loading = false
+                this.form.reset();
+            }
             if (this.SendOrderStatus == "unknown") {
                 this.$root.alert('warning', 'CAUTION', 'Check your stock for changes before next checkout')
 
@@ -269,7 +285,8 @@ export default {
 
             this.builtCart.forEach((item) => {
                 this.orderdetails.push({
-                    [item.id]: `${item.quantity} ${item.price}` })
+                    [item.id]: `${item.quantity} ${item.price}`
+                })
             })
 
         },
@@ -282,6 +299,7 @@ export default {
                 .then(response => {
                     this.$Progress.finish();
                     if (response.data.status) {
+                        this.SendOrderStatus = "placed"
                         this.orderData = response.data.data
                         this.$emit('order_created', this.orderData)
                         this.$root.alert('success', 'success', 'Order has been placed')

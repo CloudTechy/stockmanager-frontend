@@ -148,6 +148,7 @@ export default {
         AddCustomerComponent
     },
     mounted() {
+        window.dispatchEvent(new Event("sidebar_min"));
         if (localStorage.customers) {
             this.customers = JSON.parse(localStorage.customers)
             this.customers.forEach(this.countDebtors);

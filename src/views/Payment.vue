@@ -296,8 +296,7 @@ export default {
             Fire.$emit('transaction_created', this.transaction)
             window.dispatchEvent(new Event('close_sidebar_min'));
             if (this.$route.path == "/payment") {
-
-                this.$router.replace("/products")
+                this.$router.go(-1)
             }
             return true;
         },

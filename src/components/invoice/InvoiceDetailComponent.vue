@@ -30,7 +30,7 @@
             </table>
         </div>
         <div class="row">
-            <div style="width: 50vw" class="card-body col-md-6 col-sm-12 offset-lg-6 offset-md-5 offset-sm-0 ">
+            <div style="width: 50vw" class="card-body col-md-6 col-sm-12 offset-lg-6 offset-md-4 offset-sm-0 ">
                 <p v-if="invoice.due_date != null" class="lead text-center">{{ 'Amount Due ' + invoice.due_date }}</p>
                 <table class="table table-small table-valign-middle">
                     <tbody>

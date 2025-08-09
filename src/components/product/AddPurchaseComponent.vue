@@ -340,7 +340,7 @@ export default {
             this.$root.PurchaseCart = this.cart
             this.$root.alert('success', 'success', 'proceeding to checkout')
             // this.$Progress.finish()
-            this.$router.replace("/billing_purchase")
+            this.$router.push("/billing_purchase")
 
           } else {
             this.$refs.closeButtonPurchase.click();

@@ -358,9 +358,9 @@ export default {
                 .catch(err => {
                     this.$Progress.fail()
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.data.error, err.response.data.data.message )
+                        this.$root.alert('error',err.response.data.data?.error || "error", err.response.data.data?.message )
                     }
-                    else this.$root.alert('error','error', err )
+                    else this.$root.alert('error','error', "An unexpected error occured, Try again" )
                     console.log(err)
                     console.log(err.response)
                 })

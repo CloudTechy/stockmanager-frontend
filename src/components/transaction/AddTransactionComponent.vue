@@ -312,7 +312,7 @@ export default {
                     .then(response => {
                         if (response.data.status == true) {
                             var invoice_id = response.data.data.invoice_id
-                            this.form.get('/transactions/?invoice_id=' + invoice_id)
+                            this.form.get('/transactions?invoice_id=' + invoice_id)
                                 .then(response => {
                                     this.$Progress.finish()
                                     if (response.data.status == true) {

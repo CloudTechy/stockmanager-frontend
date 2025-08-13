@@ -105,7 +105,7 @@
                 .then(response => {
                     this.$refs.closeButton.click()
                     window.dispatchEvent(new Event('close_sidebar_min'));
-                    if(response.data.data.status == true){
+                    if(response.data.status == true){
                         Fire.$emit('user_edited', response.data?.data)
                         this.form.reset()
                         this.$Progress.finish()

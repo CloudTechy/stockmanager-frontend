@@ -226,10 +226,10 @@ export default {
             this.form.get('/users')
                 .then(response => {
                     this.loading = false;
-                    this.users = response.data.data.data.item;
+                    this.users = response.data?.data?.item;
                 })
                 .catch(error => {
-                    this.error = error.response.data.data.error;
+                    this.error = error.response?.data?.data?.error;
                 });
         },
         numeral(value) {

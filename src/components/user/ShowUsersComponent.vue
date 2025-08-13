@@ -41,11 +41,11 @@
                         
                         <tr v-for = "user,index in pageLoader(current_page)">
                             <td class="text-capitalize">{{  user.names }}</td>
-                            <td class="text-capitalize">{{  user.number }}</td>
-                            <td class="text-capitalize">{{  user.email }}</td>
-                            <td class="text-capitalize">{{  user.address }}</td>
-                            <td class="text-capitalize">{{  user.user_level }}</td>
-                            <td class="text-capitalize small">{{  user.date }}</td>
+                            <td class="">{{  user.number }}</td>
+                            <td class="">{{  user.email }}</td>
+                            <td class="small text-capitalize">{{  user.address }}</td>
+                            <td class="">{{  user.user_level }}</td>
+                            <td class="small">{{  user.date }}</td>
                             <td>
                                 <div style="width: 100px;">
                                     <button  @click="loadEditUser(user,index)" type="button" title="edit this user" class="btn btn-outline-primary m-1"  data-toggle="modal" data-target="#editUserModal" ><i class="fas fa-pen"></i></button>

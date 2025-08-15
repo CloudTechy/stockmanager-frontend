@@ -168,11 +168,7 @@ export default {
         this.$emit('closingAddCart')
         window.dispatchEvent(new Event('close_sidebar_min'))
         this.$refs.closeButton.click();
-
-        //     if (this.cart.length > 0) {
-        //     localStorage.cart = JSON.stringify(this.cart)
-        //     localStorage.productCart = JSON.stringify(this.products)
-        // }
+        this.updateCartonLocalStorage()
 
     },
     computed: {
@@ -226,10 +222,20 @@ export default {
             this.cartItem = {}
             this.name = ""
             this.product = {}
+            this.updateCartonLocalStorage()
             this.$root.alert('success', 'success', 'item added to cart')
         },
         loadProducts() {
             this.$emit('load_products')
+        },
+        updateCartonLocalStorage() {
+            if (this.cart.length > 0) {
+                localStorage.cart = JSON.stringify(this.cart)
+                localStorage.productCart = JSON.stringify(this.products)
+            } else {
+                localStorage.removeItem('cart')
+                localStorage.removeItem('productCart')
+            }
         },
         closeComponent() {
             this.name = ""
@@ -267,6 +273,8 @@ export default {
             this.cart[index].amount = this.cart[index].quantity * this.cart[index].price
             this.$refs['amount' + productIndex][0].innerHTML = this.cart[index].amount
             this.CartTotalAmount = this.cart.sum('amount')
+            this.$root.alert('success', 'success', 'item updated successfully')
+            this.updateCartonLocalStorage()
             this.$Progress.finish()
         },
         deleteItemOnCart(data, index, productIndex) {
@@ -294,7 +302,7 @@ export default {
 
                 })
 
-
+            this.updateCartonLocalStorage()
             this.$Progress.finish()
         },
         processCheckout() {

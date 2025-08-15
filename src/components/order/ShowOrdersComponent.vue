@@ -336,7 +336,9 @@ export default {
             this.$refs.checkoutCart.click()
         },
         updateCart(cart, indexes) {
+            
             this.cart = cart;
+            this.updateCartonLocalStorage()
             if (this.cart.length == 0) { this.loadProducts() }
             this.$root.alert('success', 'success', 'cart updated')
         },
@@ -345,8 +347,18 @@ export default {
             var cartItem = { id: data.id, product: data.product, quantity: data.quantity, price: data.price, amount: data.amount, index }
             this.cart.unshift(cartItem)
             this.products[index].stock = this.products[index].stock - data.quantity
+            this.updateCartonLocalStorage()
             this.$root.alert('success', 'success', 'added to cart')
             this.selectedProduct = {}
+        },
+        updateCartonLocalStorage() {
+            if (this.cart.length > 0) {
+                localStorage.cart = JSON.stringify(this.cart)
+                localStorage.productCart = JSON.stringify(this.products)
+            } else {
+                localStorage.removeItem('cart')
+                localStorage.removeItem('productCart')
+            }
         },
         refreshCart() {
             this.cart = []

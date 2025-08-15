@@ -70,7 +70,8 @@
         if(this.cart != ''){
           this.cartLoader.splice(index, 1);
           this.removedIndexes.push(index)
-          this.$emit('updateProduct',productIndex)
+          this.$emit('updateProduct', productIndex)
+          this.$emit('updateCart', this.cartLoader, this.removedIndexes)
           this.$root.alert('success','success','product removed from cart')
 
         }
@@ -78,7 +79,7 @@
       },
       closeComponent(){
         this.$emit('closeCart')
-        this.$emit('updateCart',this.cartLoader, this.removedIndexes)
+        
       }
     },
   }

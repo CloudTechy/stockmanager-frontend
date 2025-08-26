@@ -9,7 +9,7 @@
             <div class="card card-primary card-outline">
                 <form role="form" ref="form" @keydown="form.onKeydown($event)" @submit.prevent='add'>
                     <div class="card-body">
-                        <div class="modal-body">
+                        <div class="modal-body p-0 p-md-2">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div v-if="transaction != undefined && transactionView == true" class="col-md-12">
@@ -127,7 +127,7 @@
                                         </fieldset>
                                     </div>
                                     <div v-if="invoice != undefined && invoiceView == true" class="col-md-12">
-                                        <fieldset class="border border-warning p-2">
+                                        <fieldset class="border border-warning p-0 p-md-2">
                                             <legend class="w-auto small font-weight-bold border bg-warning">Invoice
                                                 preview</legend>
                                             <invoice-detail-component :title='"Details"'

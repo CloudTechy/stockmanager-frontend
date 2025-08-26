@@ -69,7 +69,7 @@
                                             </div>
                                         </div>
                                         <div v-if = "invoice"  class="clearfix"> </div>
-                                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                                        <ul class="products-list product-list-in-card pl-0 pr-0 pl-sm-2 pr-sm-2">
                                             <li ref='invoice' v-if="loading == false  && invoice != '' " class="item">
                                                 <div class="product-info">
                                                     <span class="users-list-date">{{ invoice.date }}</span>
@@ -88,14 +88,6 @@
                                                             </button>
                                                         </div>
                                                     </span>
-                                                    <!-- <span style="cursor: pointer" v-if="invoice.status == 'pending' || invoice.status == 'not-paid'" class="badge float-right badge-secondary small strong">
-    <div class=" text-center" @click.prevent="makeTransaction(invoice)">
-        <button title="make transaction" class=" btn-link badge badge-secondary btn-secondary small m-1">
-            {{'pay?'}}
-        </button>
-    </div>
-</span>
- -->
                                                     <span class="users-list-date"><strong>Contact: </strong>{{ invoice.number }}</span>
                                                     <span v-if="invoice.status == 'paid'" class='users-list-date badge badge-success'><strong>Balance :</strong>
                                                         <span class="" style="text-decoration: line-through">N</span>

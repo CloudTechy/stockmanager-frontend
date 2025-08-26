@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="card-body pl-sm-0 pr-sm-0 table-responsive">
             <table class="table table-small table-striped table-valign-middle">
                 <thead>
@@ -29,8 +29,8 @@
                 </tbody>
             </table>
         </div>
-        <div class="row">
-            <div style="width: 50vw" class="card-body col-md-6 col-sm-12 offset-lg-6 offset-md-4 offset-sm-0 ">
+        <div class="row p-0 mt-2 p-sm-2">
+            <div style="width: 50vw" class="card-body col-md-6 col-sm-12 offset-lg-6 offset-md-4 offset-sm-0 m-0 p-0 m-sm-1">
                 <p v-if="invoice.due_date != null" class="lead text-center">{{ 'Amount Due ' + invoice.due_date }}</p>
                 <table class="table table-small table-valign-middle">
                     <tbody>

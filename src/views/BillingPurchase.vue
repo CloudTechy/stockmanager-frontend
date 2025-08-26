@@ -146,8 +146,8 @@
 <script>
 export default {
     mounted() {
+        
 
-        this.loadSuppliers();
         if (this.$root.purchaseSupplierID) {
             this.supplierID = this.$root.purchaseSupplierID;
 
@@ -178,18 +178,22 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
+        
         next(vm => {
-            // if (from.path != "/" || from.path != "/products") {
-            //     vm.$router.replace('/products')
-            // }
+            
             if (!vm.$root.PurchaseCart) {
                 vm.$root.alert('warning', 'caution', 'Your purchase Cart is empty, redirecting to products')
                 vm.$router.replace('/products')
             }
+
+            if(!vm.suppliers || vm.suppliers == '') {
+            vm.loadSuppliers();
+        }
         })
+        
 
     },
-    created() { this.loadSuppliers(); },
+    created() {  },
 
     // props: ['cart'],
     data() {
@@ -263,10 +267,11 @@ export default {
         },
         nextStep() {
             if (this.cart) {
+                console.log("there is cart, continuing to purchase")
                 this.$Progress.start();
                 this.form.supplier_id = this.supplierID;
-                this.getPurchase(this.supplierID);
-                console.log("there is cart")
+                this.form.purchaseDetails = this.cart.map(obj => ({ ...obj, purchase_id: this.purchase.id }))
+                this.add()
                 this.$Progress.finish();
                 return
             } else {
@@ -303,7 +308,9 @@ export default {
                         localStorage.removeItem("PurchaseCart")
                         this.form.reset()
                         this.$root.alert('success', 'success', 'product added, redirecting to payment')
-                        this.$root.purchaseId = this.purchase.id
+                        // this.$root.purchaseId = this.purchase.id
+                        this.$root.transaction = response.data.data
+                        console.log("purchased bulk items", response.data.data)
                         this.$router.replace('/payment')
                         return
 

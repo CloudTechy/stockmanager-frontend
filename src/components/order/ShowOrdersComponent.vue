@@ -305,6 +305,7 @@ export default {
             window.dispatchEvent(new Event('sidebar_min'))
             this.$root.product = product;
             this.selectedProduct = product
+            this.selectedProduct.index = index;
             this.$root.index = index;
             this.addCartShow = true;
             this.index = index
@@ -343,7 +344,7 @@ export default {
             this.$root.alert('success', 'success', 'cart updated')
         },
         loadCart(data) {
-            var index = this.products.indexOf(this.selectedProduct)
+            let index = data.index
             var cartItem = { id: data.id, product: data.product, quantity: data.quantity, price: data.price, amount: data.amount, index }
             this.cart.unshift(cartItem)
             this.products[index].stock = this.products[index].stock - data.quantity

@@ -1,6 +1,6 @@
 <template>
     <div style="min-height: 90vh" class="container">
-        <div class="modal fade show" style="padding-right: 17px; display: block;" aria-modal="true">
+        <div class="modal show" style="padding-right: 17px; display: block;" aria-modal="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header text-center">

@@ -106,7 +106,7 @@
         <div v-if="addCartShow == true" class="modal" id="addCart">
             <add-cart-component @cart_created="loadCart" @closeCart="closeCart" v-if="addCartShow == true"></add-cart-component>
         </div>
-        <div v-if="viewCartShow == true" class="modal fade" id="viewCart">
+        <div v-if="viewCartShow == true" class="modal" id="viewCart">
             <view-cart-component @order_created="refreshCart" @updateProduct="indexProductUpdata" :cart="cart" @updateCart="updateCart" @closeViewCart="closeCart" v-if="viewCartShow == true"></view-cart-component>
         </div>
         <div v-if="checkoutCartShow == true" class="modal" id="checkoutCart">

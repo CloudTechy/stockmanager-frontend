@@ -2,10 +2,10 @@
     <div>
         <nav-component></nav-component>
         <sidebar-component></sidebar-component>
-        <div class="modal fade" v-if="addProductShow" @closingAddProductCart="closeAddProduct" id="addProductComponent">
+        <div class="modal" v-if="addProductShow" @closingAddProductCart="closeAddProduct" id="addProductComponent">
             <add-product-component v-if="addProductShow"></add-product-component>
         </div>
-        <div class="modal fade" v-if="showAddPurchase" @closingAddPurchaseCart="closeAddPurchase" id="addPurchaseComponent">
+        <div class="modal" v-if="showAddPurchase" @closingAddPurchaseCart="closeAddPurchase" id="addPurchaseComponent">
             <add-purchase-component @checkout="checkOutPurchase" :products="products" v-if="showAddPurchase"></add-purchase-component>
         </div>
         <div class="content-wrapper" style="min-height: 606px;">

@@ -151,7 +151,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="editProductModal"><edit-product-component></edit-product-component></div>
+        <div class="modal" id="editProductModal"><edit-product-component></edit-product-component></div>
 
     </div>
 </template>

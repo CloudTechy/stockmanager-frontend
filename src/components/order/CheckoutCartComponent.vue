@@ -298,21 +298,18 @@ export default {
             this.form.orderDetails = this.orderdetails;
             this.form.post('/orderdetails')
                 .then(response => {
-                    this.closeComponent()
+                    this.loading = false
                     this.$Progress.finish();
                     loader.hide()
                     if (response.data.status) {
                         this.SendOrderStatus = "placed"
-                        // this.orderData = response.data.data
                         this.$emit('order_created', this.orderData)
                         this.$root.alert('success', 'success', 'Order placed succesfully. Redirecting to payment')
-                        // this.loadPayment();
                         this.transaction = response.data.data;
                         this.closeComponent()
                         this.$root.transaction = response.data.data;
                         this.$router.push('/payment')
                         return
-                        // this.$root.addTransactionComponent(this.transaction)
                     } else {
                         this.$Progress.fail()
                         this.$root.alert('error', 'error', 'An unexpected error occured, Try again Later')
@@ -322,6 +319,7 @@ export default {
                 })
                 .catch(error => {
                     this.$Progress.fail();
+                    this.loading = false
                     loader.hide()
                     if (error.response) {
                         this.$Progress.fail()

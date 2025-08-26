@@ -107,8 +107,8 @@ export default {
             console.log('No customer details found by mounted, redirecting to customers page')
             // Redirect to customers page if no customer details found with a 3 sec timeout
             setTimeout(() => {
-                this.$router.push('/customers')
-            }, 2000)
+                this.$router.replace('/customers')
+            }, 0)
         }
 
 
@@ -184,12 +184,13 @@ export default {
     },
     methods: {
         nextStep() {
-            this.$Progress.start();
+            // this.$Progress.start();
             this.buildCart(this.cart)
-            this.form.customer_id = this.customer_id
-            this.getOrders()
+            
+            // this.getOrders()
             this.customerStatus = true
-            this.loading = true
+            // this.loading = true
+            this.sendOrder()
         },
         loadCustomers() {
             this.form.get('/customers')
@@ -292,18 +293,26 @@ export default {
         },
         sendOrder() {
             this.$Progress.start();
+            let loader = this.$loading.show({});
+            this.form.customer_id = this.customer_id
             this.form.orderDetails = this.orderdetails;
-            this.form.order_id = this.orderID;
-
             this.form.post('/orderdetails')
                 .then(response => {
+                    this.closeComponent()
                     this.$Progress.finish();
+                    loader.hide()
                     if (response.data.status) {
                         this.SendOrderStatus = "placed"
-                        this.orderData = response.data.data
+                        // this.orderData = response.data.data
                         this.$emit('order_created', this.orderData)
-                        this.$root.alert('success', 'success', 'Order has been placed')
-                        this.loadPayment();
+                        this.$root.alert('success', 'success', 'Order placed succesfully. Redirecting to payment')
+                        // this.loadPayment();
+                        this.transaction = response.data.data;
+                        this.closeComponent()
+                        this.$root.transaction = response.data.data;
+                        this.$router.push('/payment')
+                        return
+                        // this.$root.addTransactionComponent(this.transaction)
                     } else {
                         this.$Progress.fail()
                         this.$root.alert('error', 'error', 'An unexpected error occured, Try again Later')
@@ -313,6 +322,7 @@ export default {
                 })
                 .catch(error => {
                     this.$Progress.fail();
+                    loader.hide()
                     if (error.response) {
                         this.$Progress.fail()
                         console.log(error.response)
@@ -378,6 +388,7 @@ export default {
                 .then(response => {
                     this.$Progress.finish()
                     this.transaction = response.data.data;
+                    this.$root.transaction = response.data.data;
                     this.closeComponent()
                     this.$root.addTransactionComponent(this.transaction)
                 })

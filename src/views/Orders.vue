@@ -43,7 +43,7 @@ export default {
         ShowOrdersComponent
     },
     mounted() {
-
+        window.dispatchEvent(new Event('sidebar_min'))
     },
     data() {
         var d = new Date();

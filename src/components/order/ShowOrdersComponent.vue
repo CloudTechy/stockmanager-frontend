@@ -103,16 +103,16 @@
         </div>
         <!-- <component @changeComponent = "changeComponent" :products="products" class = "m-0 p-0" :is="componentName"></component> -->
         <!--  <div class="modal fade" id="editModal"><edit-product-component></edit-product-component></div> -->
-        <div v-if="addCartShow == true" class="modal fade" id="addCart">
+        <div v-if="addCartShow == true" class="modal" id="addCart">
             <add-cart-component @cart_created="loadCart" @closeCart="closeCart" v-if="addCartShow == true"></add-cart-component>
         </div>
         <div v-if="viewCartShow == true" class="modal fade" id="viewCart">
             <view-cart-component @order_created="refreshCart" @updateProduct="indexProductUpdata" :cart="cart" @updateCart="updateCart" @closeViewCart="closeCart" v-if="viewCartShow == true"></view-cart-component>
         </div>
-        <div v-if="checkoutCartShow == true" class="modal fade" id="checkoutCart">
+        <div v-if="checkoutCartShow == true" class="modal" id="checkoutCart">
             <checkout-cart-component @order_created="refreshCart" @closeViewCheckoutCart="closecheckOutCart" v-if="checkoutCartShow == true"></checkout-cart-component>
         </div>
-        <div style="scrollbar-width:none" class="modal fade" id="addOrderComponent">
+        <div style="scrollbar-width:none" class="modal " id="addOrderComponent">
             <add-order-component @checkout="checkOut" @closingAddCart="closeCart" @updateProduct="indexProductUpdata" @updateCart="updateCart" @load_products="loadProducts" :carts="cart" :items="products" v-if="addOrderShow == true"></add-order-component>
         </div>
         <div style="position: fixed; bottom: 25px; right: 25px">
@@ -223,7 +223,7 @@ export default {
             }
             this.refresh = true
             this.$Progress.start();
-            this.form.get('/attributeproducts')
+            this.form.get('/attributeproducts') 
                 .then(response => {
                     this.refresh = false
                     this.$Progress.finish()
@@ -244,7 +244,6 @@ export default {
                     this.refresh = false
                     if (error.response && error.response.status == 401) {
                         this.$Progress.finish()
-                        this.$router.push("/login")
                     }
                     this.$Progress.fail()
                     var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message

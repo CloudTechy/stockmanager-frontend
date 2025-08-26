@@ -114,10 +114,10 @@ import EditCustomerComponent from '@/components/customer/EditCustomerComponent.v
             EditCustomerComponent
         },
     mounted() {
+        window.dispatchEvent(new Event("sidebar_min"));
         if (localStorage.customers) {
             this.customers = JSON.parse(localStorage.customers)
         }
-    window.scrollTo(0, 0)
     },
     data() {
         var d = new Date();

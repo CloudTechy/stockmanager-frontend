@@ -2,11 +2,6 @@
   <div id="app">
     <vue-progress-bar></vue-progress-bar>
     <router-view />
-    <footer class="main-footer no-print text-left">
-      <div class="float-right d-none d-sm-inline">Version 0.1.2</div>
-      <strong>&copy; <span>SpaceHub Technologies</span>.</strong>
-      All rights reserved.
-    </footer>
   </div>
 
 </template>

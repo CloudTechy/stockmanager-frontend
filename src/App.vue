@@ -2,6 +2,11 @@
   <div id="app">
     <vue-progress-bar></vue-progress-bar>
     <router-view />
+    <footer class="main-footer no-print text-left">
+      <div class="float-right d-none d-sm-inline">Version 0.1.2</div>
+      <strong>&copy; <span>SpaceHub Technologies</span>.</strong>
+      All rights reserved.
+    </footer>
   </div>
 
 </template>
@@ -11,7 +16,7 @@
 export default {
   name: 'App',
   components: {
-   
+
   },
   mounted() {
     // Patch focus trap issue for vue-loading-overlay
@@ -30,14 +35,15 @@ export default {
 .swal2-popup .swal2-modal .swal2-icon-warning .swal2-show {
   display: block
 }
+
 .vue-progress-bar {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0;
-        width: 100%;
-        height: 4px !important;
-        z-index: 99999 !important;
-        opacity: 1 !important;
-        background-color: #29d !important;
-      }
+  position: fixed !important;
+  top: 0 !important;
+  left: 0;
+  width: 100%;
+  height: 4px !important;
+  z-index: 99999 !important;
+  opacity: 1 !important;
+  background-color: #29d !important;
+}
 </style>

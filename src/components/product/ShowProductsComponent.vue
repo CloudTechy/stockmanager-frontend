@@ -106,7 +106,7 @@
                                         {{ "Total stock for " + pageLoader(current_page).length + " product(s)" }}</span>
                                 </td>
                                 <td colspan="5">
-                                    <span class="font-weight-bold badge badge-success">
+                                    <span class="font-weight-bold badge badge-success float-end">
                                         {{ pageLoader(current_page).sum('stock') }}
                                     </span>
                                 </td>
@@ -151,7 +151,7 @@
             </div>
         </div>
 
-        <div class="modal" id="editProductModal"><edit-product-component></edit-product-component></div>
+        <div v-if="showEditComponent" class="modal" id="editProductModal"><edit-product-component  :product="selectedProduct" @close_edit_product = "close_edit_component()"></edit-product-component></div>
 
     </div>
 </template>
@@ -162,15 +162,7 @@ import EditProductComponent from '@/components/product/EditProductComponent.vue'
 
 export default {
     name: 'ShowProductsComponent',
-    components: {
-        EditProductComponent
-    },
-    mounted() {
-        window.dispatchEvent(new Event('sidebar_min'))
-        if (localStorage.purchaseProducts) {
-            this.products = JSON.parse(localStorage.purchaseProducts)
-        }
-    },
+    
     data() {
         var d = new Date();
         return {
@@ -189,11 +181,33 @@ export default {
             touchEndX: 0,
             touchStartY: 0,
             touchEndY: 0,
-            form: new Form()
+            showEditComponent: false,
+            form: new Form(),
+            selectedProduct: null,
         }
     },
+    props: ['productsProp'],
+    components: {
+        EditProductComponent
+    },
+    mounted() {
+        window.dispatchEvent(new Event('sidebar_min'))
+        this.refresh = true
+        // Load products from local storage if available
+        if (localStorage.purchaseProducts) {
+            this.products = JSON.parse(localStorage.purchaseProducts)
+        }
+    },
+    watch: {
+        productsProp(newVal) {
+            // Updates products from parent
+            this.products = newVal;
+            this.refresh = false
+        },
+    
+    },
     created() {
-        this.$Progress.start()
+        // this.$Progress.start()
         Fire.$on('product_created', (data) => {
             this.loadProducts();
         })
@@ -203,7 +217,8 @@ export default {
         Fire.$on('product_edited', (data) => {
             this.loadProducts();
         })
-        this.loadProducts();
+        
+        // this.loadProducts();
         window.scrollTo(0, 200)
         // Echo.channel('product')
         // .listen('UpdateProduct', (e) => {
@@ -216,7 +231,7 @@ export default {
         // Echo.channel('order')
         // .listen('UpdateOrder', (e) => {
         //     this.loadProducts();
-        // });
+        // }); 
     },
 
     computed: {
@@ -233,6 +248,8 @@ export default {
     methods: {
         loadProducts() {
             this.refresh = true
+            this.$emit('load_products')
+            return;
             this.$Progress.start();
             this.form.get('/attributeproducts')
                 .then(response => {
@@ -304,9 +321,15 @@ export default {
             }
         },
         loadEdit(product, index) {
-            Fire.$emit('edit_product', product);
+            this.showEditComponent = true;
+            this.selectedProduct = product;
+            // Fire.$emit('edit_product', product);
             window.dispatchEvent(new Event('sidebar_min'))
             return true;
+        },
+        close_edit_component() {
+            this.selectedProduct = null;
+            this.showEditComponent = false;
         },
         loadView(data, index) {
             Fire.$emit('view', data);

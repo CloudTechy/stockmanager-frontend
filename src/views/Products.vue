@@ -49,7 +49,7 @@
                             <div class="card-header  mb-2">
                                 <h5 class="card-title mt-1 m-2 font-weight-bold text-secondary">Manage products</h5>
                             </div>
-                            <show-products-component></show-products-component>
+                            <show-products-component @load_products="loadProducts()" :productsProp="products"></show-products-component>
                         </div>
                         <hr>
                         <div class="row">
@@ -120,16 +120,7 @@ import AddPurchaseComponent from '@/components/product/AddPurchaseComponent.vue'
             AddPurchaseComponent
         },
         mounted() {
-        localStorage.removeItem('products')
-        localStorage.removeItem('productStats')
-          if(localStorage.products){
-            this.products = JSON.parse(localStorage.products)
-            this.loading = false
-          }
-          if(localStorage.productStats){
-            this.loading = false;
-            this.productStat = JSON.parse(localStorage.productStats)
-          }
+
         },
         data() { 
           var d = new Date();
@@ -152,7 +143,7 @@ import AddPurchaseComponent from '@/components/product/AddPurchaseComponent.vue'
         },
         created(){
             Fire.$on('product_created', (data)=> {
-                this.loadProducts();
+                this.loadProducts()();
                 this.loadProductStat();
 
             })
@@ -203,7 +194,7 @@ import AddPurchaseComponent from '@/components/product/AddPurchaseComponent.vue'
                     }
                   }
                   else{
-                    console.log("load supplier did not return positive response");
+                    console.log("load products did not return positive response");
                   }
                     
                 })
@@ -220,7 +211,6 @@ import AddPurchaseComponent from '@/components/product/AddPurchaseComponent.vue'
                     var stat = response.data.data.item[0]
                     if (stat) {
                         this.productStat =  stat;
-                        localStorage.productStats = JSON.stringify(this.productStat)
                     }
                         
                   }

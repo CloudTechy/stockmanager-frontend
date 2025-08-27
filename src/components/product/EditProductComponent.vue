@@ -8,18 +8,18 @@
             <div class="card card-primary card-outline">
                 <form role="form" ref="form" @keydown="form.onKeydown($event)" @submit.prevent='add'>
                     <div class="card-body">
-                        <div class="modal-body">
+                        <div class="modal-body pt-0 pb-0">
                             <div class="container-fluid">
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <fieldset class="border border-warning p-2">
 
                                             <legend class="w-auto small font-weight-bold border bg-warning">Product Info
                                             </legend>
                                             <div class="form-group">
-                                                <label for="product">Product Name</label>
-                                                <input disabled="" type=text v-model="product.name" required=""
+                                                <label for="product">Item</label>
+                                                <input disabled="" type=text v-model="product.product" required=""
                                                     class="form-control" ref="product" id="product"
                                                     placeholder="Enter product name">
                                             </div>
@@ -43,7 +43,7 @@
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div class="col-md-6 ml-auto">
+                                    <!-- <div class="col-md-6 ml-auto">
                                         <fieldset class="border border-warning p-2">
                                             <legend class="w-auto small font-weight-bold border bg-warning">Others
                                             </legend>
@@ -80,18 +80,20 @@
                                                 </select>
                                             </div>
                                         </fieldset>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
-                    <div class="modal-footer border bordr border-top-0 border-primary">
-                        <button @click="closeAddComponent" type="button" ref="closeButton" class="btn btn-danger"
+                    
+                </form>
+            </div>
+            <div class="modal-footer border bordr border-top-0 border-primary">
+                        <button @click="$emit('close_edit_product')" type="button" ref="closeButton" class="btn btn-danger"
                             data-dismiss="modal">Close</button>
                         <button type="submit" :disabled="form.busy" class="btn btn-primary">Save changes</button>
                     </div>
-                </form>
-            </div>
         </div>
     </div>
 
@@ -100,10 +102,7 @@
 
 export default {
     mounted() {
-        this.loadBrands();
-        this.loadUnits();
-        this.loadSizes();
-        this.loadCategories();
+        
     },
     data() {
         return {
@@ -113,23 +112,19 @@ export default {
                 percent_sale: 0,
             }),
             error: '',
-            product: '',
             brands: '',
             categories: '',
             units: '',
             sizes: ''
         }
     },
+    props: ['product'],
 
     created() {
-        Fire.$on('edit_product', (data) => {
-            this.product = data
-            this.form.sale_price = data.price
-            this.form.purchase_price = data.purchase_price
-        })
+        
     },
     beforeDestroy() {
-        this.$refs.closeButton.click();
+        // this.$refs.closeButton.click();
         this.form.reset();
     },
     methods: {
@@ -159,6 +154,7 @@ export default {
         },
         closeAddComponent() {
             window.dispatchEvent(new Event('close_sidebar_min'));
+            this.$emit('close_edit_product');
             return true;
         },
         loadBrands() {

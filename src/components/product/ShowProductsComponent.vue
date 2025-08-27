@@ -151,7 +151,7 @@
             </div>
         </div>
 
-        <div v-if="showEditComponent" class="modal" id="editProductModal"><edit-product-component  :product="selectedProduct" @close_edit_product = "close_edit_component()"></edit-product-component></div>
+        <div v-if="showEditComponent" class="modal" id="editProductModal"><edit-product-component  :product="selectedProduct" @edit_product="editProduct" @close_edit_product = "close_edit_component()"></edit-product-component></div>
 
     </div>
 </template>
@@ -208,15 +208,15 @@ export default {
     },
     created() {
         // this.$Progress.start()
-        Fire.$on('product_created', (data) => {
-            this.loadProducts();
-        })
-        Fire.$on('product_deleted', (data) => {
-            this.loadProducts();
-        })
-        Fire.$on('product_edited', (data) => {
-            this.loadProducts();
-        })
+        // Fire.$on('product_created', (data) => {
+        //     this.loadProducts();
+        // })
+        // Fire.$on('product_deleted', (data) => {
+        //     this.loadProducts();
+        // })
+        // Fire.$on('product_edited', (data) => {
+        //     this.loadProducts();
+        // })
         
         // this.loadProducts();
         window.scrollTo(0, 200)
@@ -279,6 +279,29 @@ export default {
                     console.log(error.response.data.data.error)
                 });
         },
+        editProduct(form, product) {
+            this.$Progress.start();
+            form.patch('/attributeproducts/' + product.id)
+                .then(response => {
+                    this.close_edit_component()
+                    this.$Progress.finish()
+                    if (response.data.status == true) {
+                        this.$emit('product_edited', response.data.data)
+                        this.$Progress.finish()
+                        this.$root.alert('success', 'success', 'product edited')
+                    }
+                    else {
+                        this.$Progress.fail()
+                        this.$root.alert('error', 'error', 'An unexpected error occured, Try again Later')
+                    }
+                })
+                .catch(error => {
+                    this.$Progress.fail()
+                    this.$root.alert('error', 'error', error.response.data.message)
+                    var error = error.response.data.data.error;
+                    console.log(error);
+                });
+        },
         classObject(value) {
             if (value <= 1 && this.current_page == 1) {
                 this.$refs.prev.classList.add('disabled')
@@ -323,13 +346,14 @@ export default {
         loadEdit(product, index) {
             this.showEditComponent = true;
             this.selectedProduct = product;
-            // Fire.$emit('edit_product', product);
+            this.selectedProduct.index = index;
             window.dispatchEvent(new Event('sidebar_min'))
             return true;
         },
         close_edit_component() {
             this.selectedProduct = null;
             this.showEditComponent = false;
+            this.$root.closeModal('editProductModal');
         },
         loadView(data, index) {
             Fire.$emit('view', data);

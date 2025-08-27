@@ -77,7 +77,7 @@
                                                     <span class="product-description small">
                                                         {{ product.category + ", " + product.brand + ", " + product.size + ", " + product.unit}}.
                                                     </span>
-                                                    <span v-bind:class="{badge:true, 'badge-warning':product.stock < 100, 'badge-danger':product.stock <= 50,  'badge-success' : product.stock >= 100 }">{{ product.stock }}
+                                                    <span v-bind:class="{badge:true, 'badge-warning':product.stock < 100, 'badge-danger':product.stock <= 50,  'badge-success' : product.stock >= 100, 'float-end':true, }">{{ product.stock }}
                                                     </span>
                                                     <span class="text-primary product-description small">Quantity
                                                     </span>
@@ -85,7 +85,7 @@
                                                 </div>
                                             </li>
                                             <li class="p-4 m-3 border border-info" v-if="loading == false && products.length > 0 && $root.myFilter(products,search).length == 0">
-                                                <h4 class="text-center small text-secondary">products Not Found</h4>
+                                                <h4 class="text-center small text-secondary">product(s) Not Found</h4>
                                             </li>
                                         </ul>
                                     </div>
@@ -152,14 +152,15 @@ import AddPurchaseComponent from '@/components/product/AddPurchaseComponent.vue'
                 this.loadProductStat();
             })
             Fire.$on('product_edited', (data)=> {
+                console.log("product edited event caught", data);
+                this.products[data.index] = data;
                 this.loadProducts();
                 this.loadProductStat();
             })
             Fire.$on('view', (data)=> {
                 this.search = data.id;
                 this.title = "PRODUCT DETAILS"
-                setTimeout(()=>this.$refs.search.focus(),1000)
-                // this.$refs.search.focus()
+                if (this.$refs.search) this.$refs.search.scrollIntoView({ behavior: 'smooth' });
             })
             this.loadProducts();
             this.loadProductStat();
@@ -201,10 +202,10 @@ import AddPurchaseComponent from '@/components/product/AddPurchaseComponent.vue'
                 .catch (error => {
                     this.error = error.response ? error.response.data.data.error : error;
                     console.log(error);
-                }); 
+                });
             },
             loadProductStat(){
-              this.form.get('/statistics/products?count')
+              this.form.get('/statistics/products?count') 
               .then (response =>{
                   if(response.data.status == true){
                     this.loading = false;

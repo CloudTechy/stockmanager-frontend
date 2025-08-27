@@ -82,9 +82,10 @@ Stockmanager Web Application by Spacehub Technologies
         }
       }
 
-      #myDiv {
+      #dashboard {
         display: none;
       }
+      
     </style>
 
     <!-- Vite injects scripts here -->
@@ -106,17 +107,9 @@ Stockmanager Web Application by Spacehub Technologies
     </div>
 
     <!-- Vue App Root -->
-    <div id="myDiv">
-      <div id="dashboard" class="animate-bottom">
-        <div class="wrapper" style="min-height: 90vh">
-          <div id="app"></div>
-        </div>
-
-        <footer class="main-footer no-print text-left">
-          <div class="float-right d-none d-sm-inline">Version 0.1.2</div>
-          <strong>&copy; <span>SpaceHub Technologies</span>.</strong>
-          All rights reserved.
-        </footer>
+    <div id="dashboard" class="animate-bottom">
+      <div class="wrapper" style="min-height: 90vh">
+        <div id="mydiv"></div>
       </div>
     </div>
 
@@ -125,7 +118,7 @@ Stockmanager Web Application by Spacehub Technologies
     <script src="/script/popper.js"></script>
     <script src="/script/bootstrap.min.js"></script>
     <script src="/script/select2.min.js"></script>
-    <script defer src="/script/tilt.jquery.min.js"></script>
+    <script src="/script/tilt.jquery.min.js"></script>
 
     <script>
       // initialize js-tilt when jQuery is ready
@@ -140,7 +133,7 @@ Stockmanager Web Application by Spacehub Technologies
 
       function showPage() {
         document.getElementById("loader").style.display = "none";
-        document.getElementById("myDiv").style.display = "block";
+        document.getElementById("dashboard").style.display = "block";
         window.dispatchEvent(new Event("resize"));
         console.log("App loaded successfully");
       }

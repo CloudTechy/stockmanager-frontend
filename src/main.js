@@ -81,10 +81,21 @@ Vue.use(Loading, {
 
 
 
-Vue.use(VueProgressBar, {
-   
-
-});
+const options = {
+    color: 'orange',
+    failedColor: '#ff0000',
+    thickness: '4px',
+    transition: {
+      speed: '0.4s',
+      opacity: '0.6s',
+      termination: 300,
+    },
+    autoRevert: true,
+    location: 'top',
+    inverse: false,
+  };
+  
+  Vue.use(VueProgressBar, options);
 
 
 // Global Components
@@ -120,7 +131,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(() => {
-    
+    Vue.prototype.$Progress.finish();
 });
 
 $(document).ready(() => {
@@ -155,6 +166,7 @@ new Vue({
         brands: "",
         sizes: "",
     },
+    components: { 'vue-progress-bar': VueProgressBar },
     mounted() {
       this.form.baseURL = axios.defaults.baseURL;
       window.mount_loader = Vue.$loading.show();
@@ -193,6 +205,12 @@ new Vue({
                 onMouseOver: () => {},
                 onMouseOut: () => {},
             });
+        },
+        closeModal(id) {
+            if(id != undefined){ $("#" + id).modal("hide")};
+            $(".modal-backdrop").remove();
+            $("body").removeClass("modal-open");
+            $("body").css("padding-right", "");
         },
         numeral(value) {
             return numeral(value).format("0,0.00");
@@ -280,4 +298,4 @@ new Vue({
         },
     },
     render: (h) => h(App),
-}).$mount("#app");
+}).$mount("#mydiv");

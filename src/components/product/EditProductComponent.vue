@@ -1,12 +1,13 @@
 <template>
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header text-center">
-                <h3 class="modal-title display-4 font-weight-bold small ">Edit Product Price</h3>
-                <button type="button" @click="closeAddComponent" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="card card-primary card-outline">
-                <form role="form" ref="form" @keydown="form.onKeydown($event)" @submit.prevent='add'>
+            <form role="form" ref="form" @keydown="form.onKeydown($event)" @submit.prevent='add'>
+                <div class="modal-header text-center">
+                    <h3 class="modal-title display-4 font-weight-bold small ">Edit Product Price</h3>
+                    <button type="button" @click="closeAddComponent" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="card card-primary card-outline">
+
                     <div class="card-body">
                         <div class="modal-body pt-0 pb-0">
                             <div class="container-fluid">
@@ -84,16 +85,21 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
-                    
-                </form>
-            </div>
-            <div class="modal-footer border bordr border-top-0 border-primary">
-                        <button @click="$emit('close_edit_product')" type="button" ref="closeButton" class="btn btn-danger"
-                            data-dismiss="modal">Close</button>
-                        <button type="submit" :disabled="form.busy" class="btn btn-primary">Save changes</button>
-                    </div>
+
+
+                </div>
+                <div class="modal-footer border bordr border-top-0 border-primary">
+                    <button @click="$emit('close_edit_product')" type="button" ref="closeButton" class="btn btn-danger"
+                        data-dismiss="modal">Close</button>
+                    <button type="submit"
+                        :disabled="form.busy || (form.sale_price == product.price && form.purchase_price == product.purchase_price)"
+                        class="btn btn-primary">
+                        Save changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -102,13 +108,13 @@
 
 export default {
     mounted() {
-        
+
     },
     data() {
         return {
             form: new Form({
-                sale_price: '',
-                purchase_price: '',
+                sale_price: this.product.price,
+                purchase_price: this.product.purchase_price,
                 percent_sale: 0,
             }),
             error: '',
@@ -121,7 +127,7 @@ export default {
     props: ['product'],
 
     created() {
-        
+
     },
     beforeDestroy() {
         // this.$refs.closeButton.click();
@@ -129,31 +135,14 @@ export default {
     },
     methods: {
         add() {
-            this.$Progress.start();
-            this.form.patch('/attributeproducts/' + this.product.id)
-                .then(response => {
-                    this.$refs.closeButton.click()
-                    window.dispatchEvent(new Event('close_sidebar_min'));
-                    if (response.data.status == true) {
-                        Fire.$emit('product_edited', response.data.data)
-                        this.form.reset()
-                        this.$Progress.finish()
-                        this.$root.alert('success', 'success', 'product edited')
-                    }
-                    else {
-                        this.$Progress.fail()
-                        this.$root.alert('error', 'error', 'An unexpected error occured, Try again Later')
-                    }
-                })
-                .catch(error => {
-                    this.$Progress.fail()
-                    this.$root.alert('error', 'error', error.response.data.message)
-                    var error = error.response.data.data.error;
-                    console.log(error);
-                });
+            this.product.price = this.form.sale_price;
+            this.product.purchase_price = this.form.purchase_price;
+            this.$emit('edit_product', this.form, this.product);
+            Fire.$emit('product_edited', this.product);
+            return true
         },
         closeAddComponent() {
-            window.dispatchEvent(new Event('close_sidebar_min'));
+            // window.dispatchEvent(new Event('close_sidebar_min'));
             this.$emit('close_edit_product');
             return true;
         },

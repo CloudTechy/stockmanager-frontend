@@ -229,6 +229,7 @@ export default {
                 payment: null,
                 due_date: null,
                 payment_mode: "cash",
+                with_invoice: true
             }),
             error: '',
             transaction: '',
@@ -269,8 +270,9 @@ export default {
                     this.$Progress.finish()
                     loader.hide()
                     if (response.data.status == true) {
-                        this.$root.alert('success', 'success', 'transaction processed successfully ')
-                        this.loadInvoice(this.transaction.invoice_id);
+                        this.$root.alert('success', 'success', response.data.message)
+                        this.loadInvoice(response.data.data.transaction.invoice_id, response.data.data.invoice);
+                        
 
                     } else {
                         this.$root.alert('danger', 'success', 'transaction created but error occured')
@@ -279,17 +281,26 @@ export default {
                     }
                 })
                 .catch(error => {
+                    console.log(error);
                     loader.hide()
                     this.$Progress.fail()
-                    this.$root.alert('error', 'error', error.response.data.error)
-                    var error = error.response.data.error;
-                    console.log(error.response);
-                    if (error.payment) {
+                    if (error.response) {
+                        this.$root.alert('error', 'error', error.response.data.error)
+                        var error = error.response.data.error;
+                        if (error.payment) {
                         this.$refs.payment.classList.add('is-invalid');
                     }
                     if (error.due_date) {
                         this.$refs.due_date.classList.add('is-invalid');
                     }
+                    console.log(error.response);
+                    } else {
+                        this.$root.alert('error', 'error', 'Network error, please try again later')
+                        
+                    
+                    }
+                    
+                    
                 });
         },
         closeAddModalComponent() {
@@ -300,7 +311,13 @@ export default {
             }
             return true;
         },
-        loadInvoice(invoice_id) {
+        loadInvoice(invoice_id, invoice=null) {
+            if(invoice != null){
+                this.invoice = invoice
+                console.log(this.invoice);
+                this.loadInvoiceView();
+                return true;
+            }
             this.$Progress.start();
             let loader = this.$loading.show()
             let form = new Form()

@@ -130,10 +130,8 @@
         <div class="modal-footer border pt-0 pb-1 border-top-0 border-primary">
           <button @click="closeComponent" type="button" ref="closeButtonPurchase" class="btn btn-danger"
             data-dismiss="modal">Close</button>
-          <button type="button" @click="testSwal" :disabled="cart.length == 0" class="btn btn-info">testswal</button>
-          <button type="button" @click.prevent="processCheckout" :disabled="cart.length == 0"
+          <button type="submit" @click.prevent="processCheckout" :disabled="cart.length == 0"
             class="btn btn-info">Checkout</button>
-          <button @click="() => $swal('Hello from outside modal!')">Test SweetAlert</button>
         </div>
       </div>
     </div>
@@ -238,16 +236,6 @@ export default {
     }
   },
   methods: {
-    testSwal() {
-      setTimeout(() => {
-        this.$swal({
-          title: 'Test',
-          text: 'This is a test modal',
-          icon: 'info',
-          confirmButtonText: 'OK'
-        });
-      }, 100);
-    },
     add() {
       this.cartItem.amount = this.amount
       this.cartItem.sale_price = this.product.price
@@ -335,7 +323,8 @@ export default {
       this.cart = data
       localStorage.removeItem("purchaseCart")
     },
-    processCheckoutv2() {
+    processCheckoutv0() {
+      // this.$Progress.start();
       this.$swal({
         title: 'Checkout Bill',
         text: "Do you want to proceed to Checkout",
@@ -343,51 +332,32 @@ export default {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Checkout!',
-        focusConfirm: false
+        confirmButtonText: 'Yes, Checkout!'
       })
         .then((result) => {
-          if (result.isConfirmed) {
+          if (result.value) {
             localStorage.PurchaseCart = JSON.stringify(this.cart)
             this.$root.PurchaseCart = this.cart
             this.$root.alert('success', 'success', 'proceeding to checkout')
+            // this.$Progress.finish()
             this.$router.push("/billing_purchase")
 
           } else {
             this.$refs.closeButtonPurchase.click();
             this.addProductShow = false
           }
+          // this.$Progress.finish()
 
         })
+      // this.$Progress.finish()
     },
     processCheckout() {
-      // Optional: console log for debugging
-      console.log('Checkout clicked, cart length:', this.cart.length);
+      localStorage.PurchaseCart = JSON.stringify(this.cart)
+      this.$root.PurchaseCart = this.cart
+      this.$root.alert('success', 'success', 'proceeding to checkout')
+      this.$router.push("/billing_purchase")
 
-      // Defer the modal using setTimeout to avoid conflict with Bootstrap modal focus
-      setTimeout(() => {
-        this.$swal({
-          title: 'Checkout Bill',
-          text: "Do you want to proceed to Checkout",
-          icon: 'info',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, Checkout!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            localStorage.PurchaseCart = JSON.stringify(this.cart);
-            this.$root.PurchaseCart = this.cart;
-            this.$root.alert('success', 'success', 'proceeding to checkout');
-            this.$router.push("/billing_purchase");
-          } else {
-            this.$refs.closeButtonPurchase?.click();
-            this.addProductShow = false;
-          }
-        });
-      }, 100); // Delay gives Bootstrap time to release focus
-    }
-    ,
+    },
     search() {
       var datalist = this.$refs.datalist
       var term = this.name.toLowerCase()

@@ -324,7 +324,7 @@ export default {
       localStorage.removeItem("purchaseCart")
     },
     processCheckout() {
-      // this.$Progress.start();
+      this.$Progress.start();
       this.$swal({
         title: 'Checkout Bill',
         text: "Do you want to proceed to Checkout",
@@ -335,11 +335,14 @@ export default {
         confirmButtonText: 'Yes, Checkout!'
       })
         .then((result) => {
-          if (result.value) {
+          this.$Progress.finish()
+          alert(result)
+          console.log(result)
+          if (result.isConfirmed) {
             localStorage.PurchaseCart = JSON.stringify(this.cart)
             this.$root.PurchaseCart = this.cart
             this.$root.alert('success', 'success', 'proceeding to checkout')
-            // this.$Progress.finish()
+            
             this.$router.push("/billing_purchase")
 
           } else {
@@ -349,7 +352,6 @@ export default {
           // this.$Progress.finish()
 
         })
-      // this.$Progress.finish()
     },
     search() {
       var datalist = this.$refs.datalist
